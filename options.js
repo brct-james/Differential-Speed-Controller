@@ -15,6 +15,14 @@ function trimProtocolsAndBlanks(array) {
   }).filter(ruleset => (ruleset != "|1" && ruleset != ""));
 }
 
+function filterDuplicates(rules) {
+  let res = {};
+  for (let i = 0; i < rules.length; i++) {
+    res[rules[i].split("|")[0]] = rules[i].split("|")[1];
+  }
+  return Object.keys(res).map(key => key + "|" + res[key]);
+}
+
 // Saves options to chrome.storage
 function save_options() {
   var enabled = document.getElementById("enabled").checked;
@@ -38,9 +46,9 @@ function save_options() {
     }).filter(ruleset => ruleset != undefined);
   }
 
-  domainRules = domainRules.join("\n");
-  urlRules = urlRules.join("\n");
-  playlistRules = playlistRules.join("\n");
+  domainRules = filterDuplicates(domainRules).join("\n");
+  urlRules = filterDuplicates(urlRules).join("\n");
+  playlistRules = filterDuplicates(playlistRules).join("\n");
 
   document.getElementById("domainRules").value = domainRules;
   document.getElementById("urlRules").value = urlRules;
