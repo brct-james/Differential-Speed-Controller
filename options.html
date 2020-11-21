@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Differential Speed Controller: Options</title>
+    <link rel="stylesheet" href="options.css" />
+    <script src="options.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Differential Speed Controller</h1>
+    </header>
+
+    <section>
+      <h3>Settings</h3>
+      <div class="row">
+        <label for="enabled">Enable</label>
+        <input id="enabled" type="checkbox" />
+      </div>
+      <div class="row">
+        <label for="defaultSpeed">Default Speed (applied to all sites without a rule defined below): </label>
+        <input id="defaultSpeed" type="number" min="0" step="0.25" />
+      </div>
+      <div class="row">
+        <label for="domainRules">Domain-Specific Speed Rules:
+        </label>
+        <textarea id="domainRules" rows="10" cols="50"></textarea>
+      </div>
+      <div class="row">
+        <label for="urlRules">URL-Specific Speed Rules:
+        </label>
+        <textarea id="urlRules" rows="10" cols="50"></textarea>
+      </div>
+      <div class="row">
+        <label for="playlistRules">Playlist-Specific Speed Rules:
+        </label>
+        <textarea id="playlistRules" rows="10" cols="50"></textarea>
+      </div>
+    </section>
+
+    <button id="save">Save</button>
+
+    <div id="status">Options saved</div>
+  </body>
+</html>

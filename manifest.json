@@ -1,0 +1,57 @@
+{
+    "name": "Differential Speed Controller",
+    "short_name": "diffspeed",
+    "version": "1.0",
+    "description": "Chromium extension that allows saving different playback speeds based on certain domains/urls/playlists.",
+    "manifest_version": 2,
+    "icons": {
+        "16": "images/icon16.png",
+        "32": "images/icon32.png",
+        "48": "images/icon48.png",
+        "64": "images/icon64.png",
+        "128": "images/icon128.png"
+    },
+    "content_scripts": [
+        {
+            "all_frames": true,
+            "matches": [
+                "http://*/*",
+                "https://*/*",
+                "file:///*"
+            ],
+            "match_about_blank": true,
+            "exclude_matches": [
+                "https://plus.google.com/hangouts/*",
+                "https://hangouts.google.com/*",
+                "https://meet.google.com/*"
+            ],
+            "css": [
+                "inject.css"
+            ],
+            "js": [
+                "inject.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        "inject.css",
+        "shadow.css"
+    ],
+    "permissions": ["storage", "tabs"],
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/icon16.png",
+            "32": "images/icon32.png",
+            "48": "images/icon48.png",
+            "64": "images/icon64.png",
+            "128": "images/icon128.png"
+        }
+    },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+    "incognito": "split",
+    "offline_enabled": true
+}
