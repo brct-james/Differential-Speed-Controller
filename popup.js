@@ -64,18 +64,17 @@ document.addEventListener("DOMContentLoaded", function () {
       chrome.storage.sync.get(tcDefaults, function (storage) {
         chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
             let url = tabs[0].url.replace(/(^\w+:|^)\/\//, '');
-            if (url.startsWith('www.')) {
-              url = url.split('www.')[1];
-            }
+            if (url.startsWith('www.')) { url = url.split('www.')[1]; }
             let domain = url.split('/')[0];
-            let playlist = url.split("&list=")
-            if (playlist.length > 1) { playlist = playlist[1].split("&")[0]; } else { playlist = undefined }
+            let playlist = url.split("&list=");
+            if (playlist.length > 1) { playlist = "&list=" + playlist[1].split("&")[0]; } else { playlist = undefined }
 
             let newCurrentSpeed = storage.defaultSpeed;
             let newTextContent = "Current Speed";
 
             console.log("url: " + url);
             console.log("domain: " + domain);
+            console.log("playlist: " + playlist);
 
             let urlRules = storage.urlRules.split("\n");
             let playlistRules = storage.playlistRules.split("\n");

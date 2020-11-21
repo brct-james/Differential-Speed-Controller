@@ -1,5 +1,3 @@
-var regStrip = /^[\r\t\f\v ]+|[\r\t\f\v ]+$/gm;
-
 var tcDefaults = {
   enabled: true, // default enabled
   defaultSpeed: 1.0, // default:
@@ -9,41 +7,63 @@ var tcDefaults = {
   playlistRules: ""
 };
 
-// Validates settings before saving
-function validate() {
-  var valid = true;
-  var status = document.getElementById("status");
-  document
-    .getElementById("domainRules")
-    .value.split("\n")
-    .forEach((match) => {
-      match = match.replace(regStrip, "");
-    });
-  return valid;
+function trimProtocolsAndBlanks(array) {
+  return array.map(ruleset => {
+    ruleset = ruleset.replace(/(^\w+:|^)\/\//, '')
+    if (ruleset.startsWith('www.')) { ruleset = ruleset.split('www.')[1]; }
+    return ruleset
+  }).filter(ruleset => (ruleset != "|1" && ruleset != ""));
 }
 
 // Saves options to chrome.storage
 function save_options() {
-  if (validate() === false) {
-    return;
-  }
-
   var enabled = document.getElementById("enabled").checked;
   var defaultSpeed = document.getElementById("defaultSpeed").value;
-  var domainRules = document.getElementById("domainRules").value;
-  var urlRules = document.getElementById("urlRules").value;
-  var playlistRules = document.getElementById("playlistRules").value;
+  var domainRules = document.getElementById("domainRules").value.split("\n");
+  var urlRules = document.getElementById("urlRules").value.split("\n");
+  var playlistRules = document.getElementById("playlistRules").value.split("\n");
+
+  if (domainRules.length > 0) {
+    domainRules = trimProtocolsAndBlanks(domainRules).map(ruleset => [ruleset.split('/')[0].split("|")[0],ruleset.split('|')[1] ? ruleset.split('|')[1] : defaultSpeed].join("|"));
+  }
+  if (urlRules.length > 0) {
+    urlRules = trimProtocolsAndBlanks(urlRules).map(ruleset => [ruleset.split("|")[0],ruleset.split("|")[1] ? ruleset.split("|")[1] : defaultSpeed].join("|"));
+  }
+  if (playlistRules.length > 0) {
+    playlistRules = trimProtocolsAndBlanks(playlistRules).map(ruleset => {
+      let temp = ruleset.split("&list=");
+      if (temp.length > 1) { temp = "&list=" + [temp[1].split("&")[0].split("|")[0], temp[1].split("|")[1] ? temp[1].split("|")[1] : defaultSpeed].join("|"); }
+      else { temp = undefined; }
+      return temp;
+    }).filter(ruleset => ruleset != undefined);
+  }
+
+  domainRules = domainRules.join("\n");
+  urlRules = urlRules.join("\n");
+  playlistRules = playlistRules.join("\n");
+
+  document.getElementById("domainRules").value = domainRules;
+  document.getElementById("urlRules").value = urlRules;
+  document.getElementById("playlistRules").value = playlistRules;
+
+  updateTextBoxText(domainRules, urlRules, playlistRules);
 
   chrome.storage.sync.set(
     {
       enabled: enabled,
       defaultSpeed: defaultSpeed,
-      domainRules: domainRules.replace(regStrip, ""),
-      urlRules: urlRules.replace(regStrip, ""),
-      playlistRules: playlistRules.replace(regStrip, "")
+      domainRules: domainRules,
+      urlRules: urlRules,
+      playlistRules: playlistRules
     },
     updateStatus("Options saved")
   );
+}
+
+function updateTextBoxText(domainRules, urlRules, playlistRules) {
+  document.getElementById("domainRules").value = domainRules + "\n";
+  document.getElementById("urlRules").value = urlRules + "\n";
+  document.getElementById("playlistRules").value = playlistRules + "\n";
 }
 
 function updateStatus(message) {
@@ -60,9 +80,7 @@ function restore_options() {
   chrome.storage.sync.get(tcDefaults, function (storage) {
     document.getElementById("enabled").checked = storage.enabled;
     document.getElementById("defaultSpeed").value = storage.defaultSpeed;
-    document.getElementById("domainRules").value = storage.domainRules;
-    document.getElementById("urlRules").value = storage.urlRules;
-    document.getElementById("playlistRules").value = storage.playlistRules;
+    updateTextBoxText(storage.domainRules, storage.urlRules, storage.playlistRules);
   });
 }
 

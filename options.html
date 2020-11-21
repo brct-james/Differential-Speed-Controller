@@ -21,6 +21,14 @@
         <input id="defaultSpeed" type="number" min="0" step="0.25" />
       </div>
       <div class="row">
+        <p>
+          You can manually manage your lists for each type of rule below.<br />
+          One rule per line, url and speed should be separated by a "|" (e.g. youtube.com|2). Entires without a speed will be given the default speed.<br />
+          You can paste urls directly into each field below, the extension will process the urls into the appropriate format.<br />
+          Note: Playlist rules only guaranteed work with YouTube playlists. Will reject entries without the '&list=' in the url.
+        </p>
+      </div>
+      <div class="row">
         <label for="domainRules">Domain-Specific Speed Rules:
         </label>
         <textarea id="domainRules" rows="10" cols="50"></textarea>
@@ -36,6 +44,8 @@
         <textarea id="playlistRules" rows="10" cols="50"></textarea>
       </div>
     </section>
+
+    <p>If duplicates are found, the <em>last</em> instance will be kept. Blank lines will be trimmed.</p>
 
     <button id="save">Save</button>
 
