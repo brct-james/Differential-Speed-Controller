@@ -31,7 +31,29 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.querySelector("#setDomain").addEventListener("click", function () {
-    updateUI();
+    chrome.storage.sync.get(settings, function (storage) {
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        let url = tabs[0].url.replace(/(^\w+:|^)\/\//, '');
+        if (url.startsWith('www.')) { url = url.split('www.')[1]; }
+        let domain = url.split("/")[0];
+
+        let newDomainRules = storage.domainRules.split("\n");
+        let speed = document.getElementById("currentSpeed").value;
+        if (domain) {
+          newDomainRules.push(domain + "|" + speed);
+
+          newDomainRules = trimProtocolsAndBlanks(newDomainRules).map(ruleset => [ruleset.split('/')[0].split("|")[0],ruleset.split('|')[1] ? ruleset.split('|')[1] : defaultSpeed].join("|"));
+          newDomainRules = filterDuplicates(newDomainRules).join("\n");
+  
+          chrome.storage.sync.set({
+            domainRules: newDomainRules
+          });
+        }
+        console.log("Sending message with refreshSpeed", speed);
+        chrome.tabs.sendMessage(tabs[0].id, {"refreshSpeed": speed});
+      });
+    });
+    setTimeout(updateUI, 100);
   });
 
   document.querySelector("#setUrl").addEventListener("click", function () {
@@ -214,8 +236,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("defaultSpeed").value = storage.defaultSpeed;
 
       //handle updating playlistRules
-      if (storage.playlistRules) {
-        let contentFiller = storage.playlistRules.split("\n").filter(rule => rule.split("|")[0] == urls.currentPlaylist)[0]
+      if (storage.playlistRules != undefined) {
+        let contentFiller = storage.playlistRules.split("\n").filter(rule => rule.split("|")[0] == urls.currentPlaylist)[0];
         if (contentFiller) {
           contentFiller = contentFiller.split("|")[1];
           let content = "Save Speed for Playlist (" + contentFiller + ")"
@@ -223,12 +245,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
       else {
-        console.warn("in updateUI storage.playlistRules undefined")
+        console.warn("in updateUI storage.playlistRules undefined", storage)
       }
 
       //handle updating urlRules
-      if (storage.urlRules) {
-        let contentFiller = storage.urlRules.split("\n").filter(rule => rule.split("|")[0] == urls.currentUrl)[0]
+      if (storage.urlRules != undefined) {
+        let contentFiller = storage.urlRules.split("\n").filter(rule => rule.split("|")[0] == urls.currentUrl)[0];
         if (contentFiller) {
           contentFiller = contentFiller.split("|")[1];
           let content = "Save Speed for Url (" + contentFiller + ")"
@@ -236,7 +258,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
       else {
-        console.warn("in updateUI storage.urlRules undefined")
+        console.warn("in updateUI storage.urlRules undefined", storage)
+      }
+
+      //handle updating domainRules
+      if (storage.domainRules != undefined) {
+        let contentFiller = storage.domainRules.split("\n").filter(rule => rule.split("|")[0] == urls.currentDomain)[0];
+        if (contentFiller) {
+          contentFiller = contentFiller.split("|")[1];
+          let content = "Save Speed for Domain (" + contentFiller + ")"
+          console.log(content)
+          document.getElementById("setDomain").innerText = content;
+        }
+      }
+      else {
+        console.warn("in updateUI storage.domainRules undefined", storage)
       }
     });
   }
