@@ -102,16 +102,35 @@ function trimProtocolsAndBlanks(array) {
 
 function getApplicableRule() {
     console.log("starting getApplicableRule");
+    if (!pageVideo) {
+        console.log("no video found");
+        return;
+    }
     //todo: implement current speed control
     let thisUrl = window.location.href;
     let cleanUrl = trimProtocolsAndBlanks([thisUrl])[0];
     let domain = cleanUrl.split('/')[0];
     let url = cleanUrl.split('&')[0];
-    console.log("URL",url,"CLEANURL", cleanUrl)
-    let playlist = "&list=" + cleanUrl.split('&list=')[1].split("&")[0];
-    let urlRule = settings.urlRules.filter(rule => rule.split("|")[0] == url)[0];
-    let playlistRule = settings.playlistRules.filter(rule => rule.split("|")[0] == playlist)[0];
-    let domainRule = settings.domainRules.filter(rule => rule.split("|")[0] == domain)[0];
+    let playlist;
+    if (cleanUrl.includes("&list=")) {
+        playlist = "&list=" + cleanUrl.split('&list=')[1].split("&")[0];
+    }
+    else {
+        console.log("no playlist found given current url")
+    }
+
+
+    let urlRule, playlistRule, domainRule;
+    if (settings.urlRules.length > 0) {
+        urlRule = settings.urlRules.filter(rule => rule.split("|")[0] == url)[0];
+    }
+    if (settings.playlistRules.length > 0 && playlist) {
+        playlistRule = settings.playlistRules.filter(rule => rule.split("|")[0] == playlist)[0];
+    }
+    if (settings.domainRules.length > 0) {
+        domainRule = settings.domainRules.filter(rule => rule.split("|")[0] == domain)[0];
+    }    
+
     if (urlRule) {
         console.log("FOUND APPLICABLE URL RULE, APPLYING", urlRule.split("|")[1]);
         setSpeed(pageVideo, urlRule.split("|")[1])
