@@ -25,16 +25,12 @@
                 "https://hangouts.google.com/*",
                 "https://meet.google.com/*"
             ],
-            "css": [
-                "inject.css"
-            ],
             "js": [
                 "inject.js"
             ]
         }
     ],
     "web_accessible_resources": [
-        "inject.css",
         "shadow.css"
     ],
     "permissions": ["storage", "tabs"],

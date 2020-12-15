@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Differential Speed Controller: Popup</title>
-    <link rel="stylesheet" href="popup.css" />
-    <script src="popup.js"></script>
-  </head>
-  <body>
-    <div class='topBar'>
-      <span class='name'>Differential Speed Controller</span>
-      <button id="settings" class="button">Settings</button>
-    </div>
-    <hr />
 
-    <p id="cSpeedLabel" class="spacingAbove">Current Speed</p>
-    <input class="spacingBelow" id="currentSpeed" type="number" min="0" step="0.25" />
-    <button class="spacingBelow button" id="setUrl">Save Speed for Url ()</button>
-    <button class="spacingBelow button" id="setPlaylist">Save Speed for Playlist ()</button>
-    <button class="button" id="setDomain">Save Speed for Domain ()</button>
-    <p class="spacingBelow">Prioritization: Current Speed (Temporary) > Url Rule > Playlist Rule > Domain Rule</p>
-    <hr />
+<head>
+  <title>Differential Speed Controller: Popup</title>
+  <link rel="stylesheet" href="popup.css" />
+  <script src="popup.js"></script>
+</head>
 
-    <p class="spacing">Default Speed - All Sites</p>
-    <input class="spacingBelow" id="defaultSpeed" type="number" min="0" step="0.25" />
-    <button id="saveDefaultSpeed" class="button">Update Default Speed</button>
-    <hr />
+<body>
+  <div class='topBar'>
+    <span class='name'>Differential Speed Controller</span>
+    <button id="settings" class="button">Settings</button>
+  </div>
+  <hr />
 
-    <button id="enable" class="button hide">Enable Extension</button>
-    <button id="disable" class="button">Disable Extension</button>
-    <p id="status" class="hide spacingAbove"></p>
-    <hr />
+  <p id="cSpeedLabel" class="spacingAbove">Current Speed</p>
+  <input class="spacingBelow" id="currentSpeed" type="number" min="0" step="0.25" />
+  <button class="spacingBelow button" id="setUrl">Save Speed for Url ()</button>
+  <button class="spacingBelow button" id="setPlaylist">Save Speed for Playlist ()</button>
+  <button disabled class="button" id="setDomain">Save Speed for Domain ()</button>
+  <p class="spacingBelow">Prioritization: Current Speed (Temporary) > Url Rule > Playlist Rule > Domain Rule</p>
+  <hr />
 
-    <button disabled id="about" class="secondary button">About</button>
-  </body>
+  <p class="spacing">Default Speed - All Sites</p>
+  <input class="spacingBelow" id="defaultSpeed" type="number" min="0" step="0.25" />
+  <button id="saveDefaultSpeed" class="button">Update Default Speed</button>
+  <hr />
+
+  <button id="enable" class="button hide">Enable Extension</button>
+  <button id="disable" class="button">Disable Extension</button>
+  <p id="status" class="hide spacingAbove"></p>
+  <hr />
+
+  <button disabled id="about" class="secondary button">About</button>
+</body>
+
 </html>

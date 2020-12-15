@@ -1,75 +1,76 @@
 body {
-    width: 20em;
-    text-align: center;
-  }
+  width: 20em;
+  text-align: center;
+}
 
-  .name {
-    font-size: 1.35em;
-    font-weight: bold;
-  }
-  
-  .topBar {
-    display: flex;
-    justify-content: space-between;
-  }
+.name {
+  font-size: 1.35em;
+  font-weight: bold;
+}
 
-  .spacing {
-    margin: 0.6em 0;
-  }
-  .spacingBelow {
-    margin-bottom: 0.6em;
-  }
-  .spacingAbove {
-    margin-top: 0.6em;
-  }
+.topBar {
+  display: flex;
+  justify-content: space-between;
+}
 
-  #about:disabled {
-    cursor: not-allowed;
-    background-color: #444;
-    color: #fff;
-  }
-  
-  hr {
-    width: 100%;
-    border: 0;
-    height: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.3);
-    margin: 0.6em 0;
-  }
-  
-  .button {
-    width: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    border-radius: 2px;
-    outline: none;
-    color: #2b2b2b;
-    font: inherit;
-    user-select: none;
-  }
+.spacing {
+  margin: 0.6em 0;
+}
 
-  .button:hover {
-    background-color: #fff;
-    color: #000;
-    cursor: pointer;
-  }
+.spacingBelow {
+  margin-bottom: 0.6em;
+}
 
-  .button:active {
-    background-color: #444;
-    color: #fff;
-  }
+.spacingAbove {
+  margin-top: 0.6em;
+}
 
-  #settings {
-    font-size: 1em;
-    font-weight: bold;
-    max-width: 6em;
-  }
-  
-  .secondary {
-    font-size: 0.95em;
-    margin: 0.15em 0;
-  }
-  
-  .hide {
-    display: none;
-  }
-  
+button:disabled {
+  cursor: not-allowed;
+  background-color: #444;
+  color: #fff;
+}
+
+hr {
+  width: 100%;
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  margin: 0.6em 0;
+}
+
+.button {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  outline: none;
+  color: #2b2b2b;
+  font: inherit;
+  user-select: none;
+}
+
+.button:hover {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+
+.button:active {
+  background-color: #444;
+  color: #fff;
+}
+
+#settings {
+  font-size: 1em;
+  font-weight: bold;
+  max-width: 6em;
+}
+
+.secondary {
+  font-size: 0.95em;
+  margin: 0.15em 0;
+}
+
+.hide {
+  display: none;
+}
